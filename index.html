@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Задание</title>
+</head>
+<body>
+    <h1>Подпишись на канал!</h1>
+    <p>Чтобы получить монеты, подпишись на наш канал:</p>
+    <a href="tg://resolve?domain=ВАШ_КАНАЛ">Перейти к каналу</a> <br>
+    <button onclick="checkSubscription()">Проверить подписку</button>
+
+    <script>
+      function checkSubscription() {
+        Telegram.WebApp.sendData(JSON.stringify({check_subscription: true}));
+
+        Telegram.WebApp.onEvent('webAppData', function(data) {
+           const receivedData = JSON.parse(data);
+           if (receivedData.subscribed === true) {
+             Telegram.WebApp.sendData(JSON.stringify({coins: 10}));
+           } else {
+             alert("Вы не подписаны на канал. Подпишитесь и попробуйте снова.");
+           }
+         });
+      }
+    </script>
+</body>
+</html>
